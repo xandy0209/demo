@@ -3,7 +3,7 @@ import { StyledInput, StyledButton, StyledSelect } from './UI';
 import { SearchIcon, DownloadIcon, XIcon, SidebarOpenIcon, SidebarCloseIcon, BarChartIcon, TrendingUpIcon, BellIcon, SettingsIcon, RefreshCwIcon, ZoomInIcon, PlusCircleIcon, EditIcon, TrashIcon, UploadIcon } from './Icons';
 import { Pagination } from './Pagination';
 import { INNER_MONGOLIA_CITIES } from '../constants';
-import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip as RechartsTooltip, Bar, Cell, PieChart, Pie } from 'recharts';
+import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip as RechartsTooltip, Bar, Cell, PieChart, Pie, Legend } from 'recharts';
 
 interface CloudVideoInstallRecord {
     id: string;
@@ -492,6 +492,7 @@ const CloudVideoMaintenanceDataView: React.FC = () => {
                     <table className="w-full text-left border-collapse">
                         <thead className="sticky top-0 z-10 bg-[#124979]/90 backdrop-blur-sm shadow-[0_2px_10px_rgba(0,0,0,0.3)]">
                             <tr>
+                                <Th className="text-blue-200">月份</Th>
                                 <Th className="text-blue-200">地市</Th>
                                 <Th className="text-blue-200">一级分类</Th>
                                 <Th className="text-blue-200">二级分类</Th>
@@ -504,6 +505,7 @@ const CloudVideoMaintenanceDataView: React.FC = () => {
                         <tbody>
                             {paginatedData.length > 0 ? paginatedData.map((item, index) => (
                                 <tr key={item.id} className={`hover:bg-blue-500/10 transition-colors ${index % 2 === 0 ? 'bg-transparent' : 'bg-[#0A3458]/20'}`}>
+                                    <Td className="text-blue-100">{item.month}</Td>
                                     <Td className="text-blue-100">{item.city}</Td>
                                     <Td className="text-blue-100">{item.cat1}</Td>
                                     <Td className="text-blue-100">{item.cat2}</Td>
@@ -521,7 +523,7 @@ const CloudVideoMaintenanceDataView: React.FC = () => {
                                 </tr>
                             )) : (
                                 <tr>
-                                    <Td colSpan={7} className="text-center text-gray-400 py-8">暂无数据</Td>
+                                    <Td colSpan={8} className="text-center text-gray-400 py-8">暂无数据</Td>
                                 </tr>
                             )}
                         </tbody>
@@ -550,7 +552,7 @@ const CloudVideoMaintenanceDataView: React.FC = () => {
                         <div className="flex justify-between items-center p-4 border-b border-blue-500/30 bg-[#0c2242]">
                             <h3 className="text-lg font-bold text-white flex items-center gap-2">
                                 <TrendingUpIcon className="w-5 h-5 text-neon-blue" />
-                                维护量详情 - {selectedRecord.city} ({selectedRecord.month})
+                                维护数据详情 - {selectedRecord.city} ({selectedRecord.month})
                             </h3>
                             <button onClick={() => setSelectedRecord(null)} className="text-gray-400 hover:text-white transition-colors">
                                 <XIcon className="w-6 h-6" />
@@ -907,7 +909,7 @@ const CloudVideoFaultTicketDataView: React.FC = () => {
                                         </tbody>
                                     </table>
                                 </div>
-                                <div className="w-64 h-40">
+                                <div className="w-80 h-56">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <PieChart>
                                             <Pie
@@ -926,6 +928,14 @@ const CloudVideoFaultTicketDataView: React.FC = () => {
                                             <RechartsTooltip 
                                                 contentStyle={{ backgroundColor: '#0A3458', borderColor: '#00d2ff', color: '#fff' }}
                                                 itemStyle={{ color: '#fff' }}
+                                            />
+                                            <Legend 
+                                                verticalAlign="bottom" 
+                                                align="center" 
+                                                iconType="circle"
+                                                iconSize={8}
+                                                wrapperStyle={{ fontSize: '10px', paddingTop: '10px' }}
+                                                formatter={(value) => <span style={{ color: '#94a3b8' }}>{value}</span>}
                                             />
                                         </PieChart>
                                     </ResponsiveContainer>
@@ -1155,6 +1165,7 @@ const CloudVideoCostUnitDataView: React.FC = () => {
             {/* Footer */}
             <div className="bg-[#1e293b]/50 h-[40px] shrink-0 border-t border-blue-500/20 flex items-center px-4 gap-4">
                 <div className="flex gap-2">
+                    <StyledButton variant="secondary" icon={<DownloadIcon />} onClick={() => alert('下载导入模版')} className="h-8 whitespace-nowrap">导入模版</StyledButton>
                     <StyledButton variant="secondary" icon={<UploadIcon />} onClick={() => alert('批量导入')} className="h-8 whitespace-nowrap">导入</StyledButton>
                     <StyledButton variant="secondary" icon={<DownloadIcon />} onClick={() => alert('批量导出')} className="h-8 whitespace-nowrap">导出</StyledButton>
                     <StyledButton variant="primary" icon={<PlusCircleIcon />} onClick={handleAdd} className="h-8 whitespace-nowrap">新增单价</StyledButton>

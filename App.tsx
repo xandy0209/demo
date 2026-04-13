@@ -1487,7 +1487,22 @@ You help users query data, analyze alarms, manage tickets, and provide insights.
                     const label = staticTab ? staticTab.label : tabId;
                     
                     const isActive = activeTab === tabId;
-                    return ( <div key={tabId} className="relative group cursor-pointer min-w-0 max-w-[180px]" onClick={() => setActiveTab(tabId)}> <div className={`flex items-center justify-center gap-1 px-4 py-2 ${isActive ? 'bg-[#124979] border-blue-400/50 text-white' : 'bg-transparent border-transparent text-gray-400 hover:text-gray-200 hover:bg-[#0e2a55]/10'} border-r border-t-0 border-b-0 border-l-0 border-blue-500/10 text-sm tracking-wide transition-all whitespace-nowrap overflow-hidden`}> <span className={`truncate ${isActive ? "drop-shadow-[0_0_5px_rgba(0,210,255,0.5)]" : ""}`} title={label}>{label}</span> <button onClick={(e) => handleCloseTab(e, tabId)} className={`ml-2 flex-shrink-0 transition-colors focus:outline-none ${isActive ? 'text-white hover:text-white' : 'text-gray-500 hover:text-gray-300'}`} title="关闭"><XIcon /></button> </div> </div> );
+                    return ( 
+                        <div 
+                            key={tabId} 
+                            className="relative group cursor-pointer min-w-0 max-w-[180px]" 
+                            onClick={() => setActiveTab(tabId)}
+                            onContextMenu={(e) => {
+                                e.preventDefault();
+                                setContextMenu({ x: e.clientX, y: e.clientY, tabId: tabId });
+                            }}
+                        > 
+                            <div className={`flex items-center justify-center gap-1 px-4 py-2 ${isActive ? 'bg-[#124979] border-blue-400/50 text-white' : 'bg-transparent border-transparent text-gray-400 hover:text-gray-200 hover:bg-[#0e2a55]/10'} border-r border-t-0 border-b-0 border-l-0 border-blue-500/10 text-sm tracking-wide transition-all whitespace-nowrap overflow-hidden`}> 
+                                <span className={`truncate ${isActive ? "drop-shadow-[0_0_5px_rgba(0,210,255,0.5)]" : ""}`} title={label}>{label}</span> 
+                                <button onClick={(e) => handleCloseTab(e, tabId)} className={`ml-2 flex-shrink-0 transition-colors focus:outline-none ${isActive ? 'text-white hover:text-white' : 'text-gray-500 hover:text-gray-300'}`} title="关闭"><XIcon /></button> 
+                            </div> 
+                        </div> 
+                    );
                 })
             )}
         </div>

@@ -8,10 +8,15 @@ import { Pagination } from './Pagination';
 export const TrafficOverlimitAnalysisView: React.FC = () => {
     const [data, setData] = useState<TrafficOverlimitAnalysisRecord[]>([]);
     const [loading, setLoading] = useState(true);
+    const getYesterday = () => {
+        const d = new Date();
+        d.setDate(d.getDate() - 1);
+        return d.toISOString().split('T')[0];
+    };
+
     const [filter, setFilter] = useState({
         city: '',
-        startDate: '',
-        endDate: '',
+        date: getYesterday(),
         granularity: 'day' // 'day' | 'month'
     });
     
@@ -43,12 +48,28 @@ export const TrafficOverlimitAnalysisView: React.FC = () => {
     }, []);
 
     const filteredData = useMemo(() => {
-        return data.filter(item => {
-            const matchCity = !filter.city || item.city === filter.city;
-            const matchStart = !filter.startDate || item.time >= filter.startDate;
-            const matchEnd = !filter.endDate || item.time <= filter.endDate;
-            return matchCity && matchStart && matchEnd;
+        let filtered = data.filter(item => {
+            const matchDate = !filter.date || item.time === filter.date;
+            
+            if (filter.city === '') {
+                // '全部' - Show all records for that date (Aggregate + Cities)
+                return matchDate;
+            } else {
+                // '全区' or specific city
+                return matchDate && item.city === filter.city;
+            }
         });
+
+        // If '全部' is selected, ensure '全区' record is at the top
+        if (filter.city === '') {
+            filtered.sort((a, b) => {
+                if (a.city === '全区') return -1;
+                if (b.city === '全区') return 1;
+                return 0;
+            });
+        }
+        
+        return filtered;
     }, [data, filter]);
 
     const paginatedData = useMemo(() => {
@@ -68,8 +89,7 @@ export const TrafficOverlimitAnalysisView: React.FC = () => {
     const handleReset = () => {
         setFilter({
             city: '',
-            startDate: '',
-            endDate: '',
+            date: '',
             granularity: 'day'
         });
         setPagination(prev => ({ ...prev, currentPage: 1 }));
@@ -93,26 +113,19 @@ export const TrafficOverlimitAnalysisView: React.FC = () => {
                     <span className="text-xs text-white">统计粒度:</span>
                     <StyledSelect 
                         value={filter.granularity} 
-                        onChange={(e) => setFilter(prev => ({...prev, granularity: e.target.value}))}
+                        onChange={(e) => setFilter(prev => ({...prev, granularity: e.target.value, date: ''}))}
                         className="w-24 text-xs"
                     >
-                        <option value="day">按天</option>
-                        <option value="month">按月</option>
+                        <option value="day">天</option>
+                        <option value="month">月</option>
                     </StyledSelect>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="text-xs text-white">时间范围:</span>
+                    <span className="text-xs text-white">统计周期:</span>
                     <StyledInput 
-                        type="date" 
-                        value={filter.startDate} 
-                        onChange={(e) => setFilter(prev => ({...prev, startDate: e.target.value}))}
-                        className="w-36 text-xs"
-                    />
-                    <span className="text-blue-500">-</span>
-                    <StyledInput 
-                        type="date" 
-                        value={filter.endDate} 
-                        onChange={(e) => setFilter(prev => ({...prev, endDate: e.target.value}))}
+                        type={filter.granularity === 'day' ? 'date' : 'month'} 
+                        value={filter.date} 
+                        onChange={(e) => setFilter(prev => ({...prev, date: e.target.value}))}
                         className="w-36 text-xs"
                     />
                 </div>
@@ -124,6 +137,7 @@ export const TrafficOverlimitAnalysisView: React.FC = () => {
                         className="w-32 text-xs"
                     >
                         <option value="">全部</option>
+                        <option value="全区">全区</option>
                         {INNER_MONGOLIA_CITIES.map(c => <option key={c.code} value={c.name}>{c.name}</option>)}
                     </StyledSelect>
                 </div>
