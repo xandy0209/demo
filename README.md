@@ -1,11 +1,11 @@
-<div align="center">
+# 中国移动政企业务运维支撑系统 (26NM项目)
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+## 开发规范
 
-  <h1>Built with AI Studio</h2>
+本项目遵循严格的设计规范和代码结构。在进行任何开发或修改之前，请务必阅读并遵守 [DEVELOPER_GUIDELINES.md](./DEVELOPER_GUIDELINES.md)。
 
-  <p>The fastest path from prompt to production with Gemini.</p>
-
-  <a href="https://aistudio.google.com/apps">Start building</a>
-
-</div>
+### 核心原则
+- **视觉风格**：赛博朋克 / 深色科技感。
+- **技术栈**：React + Tailwind CSS (无第三方 UI 库)。
+- **数据规范**：使用 Mock 数据，地市限定为内蒙古自治区。
+- **代码组织**：模块化拆分，严格的状态管理。

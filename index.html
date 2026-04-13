@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>政企业务运维支撑系统-NM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'space-dark': '#0a1128',
+              'space-light': '#1c2541',
+              'neon-blue': '#00d2ff',
+              'tech-blue': '#007acc',
+              'border-blue': 'rgba(59, 130, 246, 0.3)',
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #000000;
+      }
+      #root {
+        height: 100%;
+        width: 100%;
+      }
+      
+      /* Custom scrollbar for table - consistent with background */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-corner {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2); 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #0c2242; 
+        border-radius: 4px; 
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #163663; 
+      }
+
+      /* Specific style for custom-scrollbar class */
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #0c2242;
+      }
+      
+      /* Force white calendar icon in WebKit browsers by inverting the default black icon */
+      input[type="date"]::-webkit-calendar-picker-indicator,
+      input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+      input[type="month"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        cursor: pointer;
+        opacity: 0.8;
+      }
+      input[type="date"]::-webkit-calendar-picker-indicator:hover,
+      input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover,
+      input[type="month"]::-webkit-calendar-picker-indicator:hover {
+        opacity: 1;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes slideInRight {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+      }
+
+      @keyframes loading {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(300%); }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "@google/genai": "https://esm.sh/@google/genai@^1.38.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="text-white">
+    <div id="root">
+      <script type="module" src="/index.tsx"></script>
+    </div>
+  </body>
+</html>
