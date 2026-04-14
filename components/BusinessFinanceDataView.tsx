@@ -284,7 +284,6 @@ const InstallRemoveDataView: React.FC = () => {
                     <table className="w-full text-left border-collapse">
                         <thead className="sticky top-0 bg-[#1e3a5f] z-10">
                             <tr>
-                                <th className="p-3 text-xs font-semibold text-blue-100 border-b border-blue-500/30">月份</th>
                                 <th className="p-3 text-xs font-semibold text-blue-100 border-b border-blue-500/30">地市</th>
                                 <th className="p-3 text-xs font-semibold text-blue-100 border-b border-blue-500/30">一级分类</th>
                                 <th className="p-3 text-xs font-semibold text-blue-100 border-b border-blue-500/30">二级分类</th>
@@ -298,7 +297,6 @@ const InstallRemoveDataView: React.FC = () => {
                         <tbody>
                             {paginatedData.map((record) => (
                                 <tr key={record.id} className="hover:bg-blue-500/10 transition-colors border-b border-blue-500/10">
-                                    <td className="p-3 text-xs text-white">{record.month}</td>
                                     <td className="p-3 text-xs text-white">{record.city}</td>
                                     <td className="p-3 text-xs text-white">{record.cat1}</td>
                                     <td className="p-3 text-xs text-white">{record.cat2}</td>
@@ -339,7 +337,7 @@ const InstallRemoveDataView: React.FC = () => {
                     <div className="bg-[#0b1730] border border-blue-500/40 w-full max-w-6xl max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(0,210,255,0.3)]">
                         <div className="flex justify-between items-center p-4 border-b border-blue-500/30 bg-[#0c2242]">
                             <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                                装移机详情 - {selectedRecord?.city} ({selectedRecord?.month})
+                                业财数据详情 - {selectedRecord?.city}
                             </h3>
                             <button onClick={() => setIsDetailModalOpen(false)} className="text-gray-400 hover:text-white transition-colors">
                                 <XIcon className="w-6 h-6" />
@@ -532,7 +530,6 @@ const MaintenanceDataView: React.FC = () => {
                     <table className="w-full text-left border-collapse">
                         <thead className="sticky top-0 bg-[#1e3a5f] z-10">
                             <tr>
-                                <Th className="text-blue-100">月份</Th>
                                 <Th className="text-blue-100">地市</Th>
                                 <Th className="text-blue-100">一级分类</Th>
                                 <Th className="text-blue-100">二级分类</Th>
@@ -546,7 +543,6 @@ const MaintenanceDataView: React.FC = () => {
                         <tbody>
                             {paginatedData.map((record) => (
                                 <tr key={record.id} className="hover:bg-blue-500/10 transition-colors border-b border-blue-500/10">
-                                    <Td className="text-white">{record.month}</Td>
                                     <Td className="text-white">{record.city}</Td>
                                     <Td className="text-white">{record.cat1}</Td>
                                     <Td className="text-white">{record.cat2}</Td>
@@ -578,7 +574,7 @@ const MaintenanceDataView: React.FC = () => {
                 <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
                     <div className="bg-[#0b1730] border border-blue-500/40 w-full max-w-6xl max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(0,210,255,0.3)]">
                         <div className="flex justify-between items-center p-4 border-b border-blue-500/30 bg-[#0c2242]">
-                            <h3 className="text-lg font-bold text-white">维护数据详情 - {selectedRecord?.city} ({selectedRecord?.month})</h3>
+                            <h3 className="text-lg font-bold text-white">维护数据详情 - {selectedRecord?.city}</h3>
                             <button onClick={() => setIsDetailModalOpen(false)} className="text-gray-400 hover:text-white transition-colors"><XIcon className="w-6 h-6" /></button>
                         </div>
                         <div className="flex-1 overflow-auto p-4 scrollbar-thin">

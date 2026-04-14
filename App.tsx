@@ -1487,22 +1487,20 @@ You help users query data, analyze alarms, manage tickets, and provide insights.
                     const label = staticTab ? staticTab.label : tabId;
                     
                     const isActive = activeTab === tabId;
-                    return ( 
-                        <div 
-                            key={tabId} 
-                            className="relative group cursor-pointer min-w-0 max-w-[180px]" 
-                            onClick={() => setActiveTab(tabId)}
-                            onContextMenu={(e) => {
-                                e.preventDefault();
-                                setContextMenu({ x: e.clientX, y: e.clientY, tabId: tabId });
-                            }}
-                        > 
-                            <div className={`flex items-center justify-center gap-1 px-4 py-2 ${isActive ? 'bg-[#124979] border-blue-400/50 text-white' : 'bg-transparent border-transparent text-gray-400 hover:text-gray-200 hover:bg-[#0e2a55]/10'} border-r border-t-0 border-b-0 border-l-0 border-blue-500/10 text-sm tracking-wide transition-all whitespace-nowrap overflow-hidden`}> 
-                                <span className={`truncate ${isActive ? "drop-shadow-[0_0_5px_rgba(0,210,255,0.5)]" : ""}`} title={label}>{label}</span> 
-                                <button onClick={(e) => handleCloseTab(e, tabId)} className={`ml-2 flex-shrink-0 transition-colors focus:outline-none ${isActive ? 'text-white hover:text-white' : 'text-gray-500 hover:text-gray-300'}`} title="关闭"><XIcon /></button> 
-                            </div> 
+                    return ( <div 
+                        key={tabId} 
+                        className="relative group cursor-pointer min-w-0 max-w-[180px]" 
+                        onClick={() => setActiveTab(tabId)}
+                        onContextMenu={(e) => {
+                            e.preventDefault();
+                            setContextMenu({ x: e.clientX, y: e.clientY, tabId: tabId });
+                        }}
+                    > 
+                        <div className={`flex items-center justify-center gap-1 px-4 py-2 ${isActive ? 'bg-[#124979] border-blue-400/50 text-white' : 'bg-transparent border-transparent text-gray-400 hover:text-gray-200 hover:bg-[#0e2a55]/10'} border-r border-t-0 border-b-0 border-l-0 border-blue-500/10 text-sm tracking-wide transition-all whitespace-nowrap overflow-hidden`}> 
+                            <span className={`truncate ${isActive ? "drop-shadow-[0_0_5px_rgba(0,210,255,0.5)]" : ""}`} title={label}>{label}</span> 
+                            <button onClick={(e) => handleCloseTab(e, tabId)} className={`ml-2 flex-shrink-0 transition-colors focus:outline-none ${isActive ? 'text-white hover:text-white' : 'text-gray-500 hover:text-gray-300'}`} title="关闭"><XIcon /></button> 
                         </div> 
-                    );
+                    </div> );
                 })
             )}
         </div>
@@ -1900,10 +1898,19 @@ You help users query data, analyze alarms, manage tickets, and provide insights.
                     <div 
                         className="px-4 py-2 hover:bg-[#1e3a5f]/80 cursor-pointer text-xs text-blue-100 hover:text-white transition-colors" 
                         onClick={() => {
-                            if (activeTab === 'complaint' || activeTab === 'fault-management') {
-                                handleCloseComplaintTab(null, contextMenu.tabId);
+                            const tabId = contextMenu?.tabId;
+                            if (!tabId) {
+                                setContextMenu(null);
+                                return;
+                            }
+                            
+                            // Determine which tab list contains the tabId
+                            if (complaintTabs.some(t => t.id === tabId)) {
+                                handleCloseComplaintTab(null, tabId);
+                            } else if (faultManagementTabs.some(t => t.id === tabId)) {
+                                handleCloseComplaintTab(null, tabId); // handleCloseComplaintTab handles both
                             } else {
-                                handleCloseTab(null, contextMenu.tabId);
+                                handleCloseTab(null, tabId);
                             }
                             setContextMenu(null);
                         }}
@@ -1913,21 +1920,27 @@ You help users query data, analyze alarms, manage tickets, and provide insights.
                     <div 
                         className="px-4 py-2 hover:bg-[#1e3a5f]/80 cursor-pointer text-xs text-blue-100 hover:text-white transition-colors" 
                         onClick={() => {
-                            if (activeTab === 'complaint') {
-                                const tabToKeep = complaintTabs.find(t => t.id === contextMenu.tabId);
+                            const tabId = contextMenu?.tabId;
+                            if (!tabId) {
+                                setContextMenu(null);
+                                return;
+                            }
+
+                            if (complaintTabs.some(t => t.id === tabId)) {
+                                const tabToKeep = complaintTabs.find(t => t.id === tabId);
                                 if (tabToKeep) {
                                     setComplaintTabs([tabToKeep]);
                                     setActiveComplaintTabId(tabToKeep.id);
                                 }
-                            } else if (activeTab === 'fault-management') {
-                                const tabToKeep = faultManagementTabs.find(t => t.id === contextMenu.tabId);
+                            } else if (faultManagementTabs.some(t => t.id === tabId)) {
+                                const tabToKeep = faultManagementTabs.find(t => t.id === tabId);
                                 if (tabToKeep) {
                                     setFaultManagementTabs([tabToKeep]);
                                     setActiveFaultManagementTabId(tabToKeep.id);
                                 }
                             } else {
-                                setVisibleTabs([contextMenu.tabId]);
-                                setActiveTab(contextMenu.tabId);
+                                setVisibleTabs([tabId]);
+                                setActiveTab(tabId);
                             }
                             setContextMenu(null);
                         }}
@@ -1937,23 +1950,29 @@ You help users query data, analyze alarms, manage tickets, and provide insights.
                     <div 
                         className="px-4 py-2 hover:bg-[#1e3a5f]/80 cursor-pointer text-xs text-blue-100 hover:text-white transition-colors" 
                         onClick={() => {
-                            if (activeTab === 'complaint') {
+                            const tabId = contextMenu?.tabId;
+                            if (!tabId) {
+                                setContextMenu(null);
+                                return;
+                            }
+
+                            if (complaintTabs.some(t => t.id === tabId)) {
                                 setComplaintTabs([]);
                                 setActiveComplaintTabId(null);
                                 setActiveSidebarFolder('');
-                            } else if (activeTab === 'fault-management') {
+                            } else if (faultManagementTabs.some(t => t.id === tabId)) {
                                 setFaultManagementTabs([]);
                                 setActiveFaultManagementTabId(null);
                                 setActiveFaultSidebarFolder('');
                             } else {
-                                // Close all but main
-                                setVisibleTabs(['complaint']);
-                                setActiveTab('complaint');
+                                // Close all tabs
+                                setVisibleTabs([]);
+                                setActiveTab('');
                             }
                             setContextMenu(null);
                         }}
                     >
-                        关闭所有标签
+                        关闭全部标签
                     </div>
                 </div>
             )}

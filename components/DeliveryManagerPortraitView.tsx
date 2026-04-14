@@ -171,7 +171,7 @@ export const DeliveryManagerPortraitView: React.FC = () => {
                             className="px-4 py-2 hover:bg-[#1e3a5f]/80 cursor-pointer text-xs text-blue-100 hover:text-white transition-colors"
                             onClick={handleCloseAllTabs}
                         >
-                            关闭所有标签
+                            关闭全部标签
                         </div>
                     </div>
                 )}

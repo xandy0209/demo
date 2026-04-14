@@ -741,6 +741,7 @@ export const generateComplaintMockData = (count: number): ComplaintRecord[] => {
         const deadlineHours = Math.floor(Math.random() * 48) + 4; // 4 to 52 hours deadline
         complaintDate.setHours(complaintDate.getHours() + deadlineHours);
         const slaDeadline = complaintDate.toISOString().replace('T', ' ').substring(0, 19);
+
         const alarmDate = new Date(timeStr.replace(' ', 'T'));
         const discoveryDate = new Date(alarmDate.getTime() + (Math.floor(Math.random() * 30) + 5) * 60000); // 5 to 35 minutes later
         const alarmTime = timeStr;
@@ -800,56 +801,29 @@ export const generateTrafficOverlimitMockData = (count: number): TrafficOverlimi
   const data: TrafficOverlimitAnalysisRecord[] = [];
   const cities = INNER_MONGOLIA_CITIES.map(c => c.name);
   
-  // Generate data for all cities for the last 30 days to ensure coverage
-  for (let d = 0; d < 30; d++) {
+  for (let i = 0; i < count; i++) {
+    const city = cities[i % cities.length];
+    const totalBusiness = Math.floor(Math.random() * 5000 + 1000);
+    const zeroTrafficCount = Math.floor(Math.random() * 200 + 50);
+    const highBandwidthCount = Math.floor(Math.random() * 300 + 100);
+    
+    const zeroTrafficRatio = ((zeroTrafficCount / totalBusiness) * 100).toFixed(2);
+    const highBandwidthRatio = ((highBandwidthCount / totalBusiness) * 100).toFixed(2);
+    
     const date = new Date();
-    date.setDate(date.getDate() - d);
-    const timeStr = date.toISOString().split('T')[0];
-    
-    let regionTotalBus = 0;
-    let regionZeroTraffic = 0;
-    let regionHighBw = 0;
-    
-    const cityRecords: TrafficOverlimitAnalysisRecord[] = [];
-    
-    cities.forEach((city, index) => {
-      const totalBusiness = Math.floor(Math.random() * 5000 + 1000);
-      const zeroTrafficCount = Math.floor(Math.random() * 200 + 50);
-      const highBandwidthCount = Math.floor(Math.random() * 300 + 100);
-      
-      regionTotalBus += totalBusiness;
-      regionZeroTraffic += zeroTrafficCount;
-      regionHighBw += highBandwidthCount;
-      
-      const zeroTrafficRatio = ((zeroTrafficCount / totalBusiness) * 100).toFixed(2);
-      const highBandwidthRatio = ((highBandwidthCount / totalBusiness) * 100).toFixed(2);
-      
-      cityRecords.push({
-        id: `traffic-${d}-${index}`,
-        time: timeStr,
-        city,
-        totalBusiness,
-        zeroTrafficCount,
-        zeroTrafficRatio,
-        highBandwidthCount,
-        highBandwidthRatio
-      });
+    date.setDate(date.getDate() - i);
+    const time = date.toISOString().split('T')[0];
+
+    data.push({
+      id: `traffic-${i}`,
+      time,
+      city,
+      totalBusiness,
+      zeroTrafficCount,
+      zeroTrafficRatio,
+      highBandwidthCount,
+      highBandwidthRatio
     });
-    
-    // Create 'Whole Region' (全区) aggregate record
-    const regionRecord: TrafficOverlimitAnalysisRecord = {
-      id: `traffic-${d}-region`,
-      time: timeStr,
-      city: '全区',
-      totalBusiness: regionTotalBus,
-      zeroTrafficCount: regionZeroTraffic,
-      zeroTrafficRatio: ((regionZeroTraffic / regionTotalBus) * 100).toFixed(2),
-      highBandwidthCount: regionHighBw,
-      highBandwidthRatio: ((regionHighBw / regionTotalBus) * 100).toFixed(2)
-    };
-    
-    data.push(regionRecord);
-    data.push(...cityRecords);
   }
   return data;
 };
