@@ -28,6 +28,7 @@ import { BusinessFinanceDataView } from './components/BusinessFinanceDataView';
 import { CloudVideoFinanceDataView } from './components/CloudVideoFinanceDataView';
 import { TrafficOverlimitAnalysisView } from './components/TrafficOverlimitAnalysisView';
 import { BusinessOfflineTerminalView } from './components/BusinessOfflineTerminalView';
+import { MinistryProvinceReportView } from './components/MinistryProvinceReportView';
 
 const Th = ({ children, className = "", ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) => (
   <th className={`p-3 font-semibold border-b border-blue-500/40 whitespace-nowrap text-xs ${className}`} {...props}>
@@ -56,6 +57,7 @@ const TABS_CONFIG: { id: string; label: string }[] = [
   { id: 'cloud-video-finance-data', label: '云视讯业财数据' },
   { id: 'traffic-overlimit-analysis', label: '业务流量超限分析' },
   { id: 'offline-terminal-analysis', label: '业务离线终端分析' },
+  { id: 'ministry-province-report', label: '企宽部省上报管理' },
 ];
 
 const MENU_ITEMS = [
@@ -1679,7 +1681,9 @@ You help users query data, analyze alarms, manage tickets, and provide insights.
                             <TrafficOverlimitAnalysisView />
                         ) : tabId === 'offline-terminal-analysis' ? (
                             <BusinessOfflineTerminalView />
-                        ) : tabId === 'complaint' ? (
+                        ) : tabId === 'ministry-province-report' ? (
+                             <MinistryProvinceReportView />
+                         ) : tabId === 'complaint' ? (
                             <div className="flex flex-1 overflow-hidden h-full">
                                 <div className={`${complaintSidebarCollapsed ? 'w-[53px]' : 'w-48'} bg-transparent border border-blue-500/30 mr-2 transition-all duration-500 ease-in-out flex flex-col shadow-[0_0_15px_rgba(0,0,0,0.3)]`}>
                                     <div className={`h-[35px] flex items-center ${complaintSidebarCollapsed ? 'justify-center' : 'justify-between px-3'} border-b border-blue-500/20 bg-transparent shrink-0`}> 
@@ -1856,6 +1860,13 @@ You help users query data, analyze alarms, manage tickets, and provide insights.
                             >
                                 <span>综合分析</span>
                                 <ChevronRightIcon className="w-4 h-4 text-blue-400 group-hover:text-white transition-colors" />
+                            </div>
+                            <div 
+                                className="px-4 py-2 hover:bg-[#1e3a5f]/80 cursor-pointer text-sm text-blue-100 hover:text-white transition-colors border-l-2 border-transparent hover:border-neon-blue" 
+                                onClick={() => { handleOpenTab('ministry-province-report'); setDropdownState(prev => ({...prev, isOpen: false})); setActiveMenu('企宽(新)'); }}
+                                onMouseEnter={() => { clearDropdownTimer(); setSubDropdownState(prev => ({...prev, isOpen: false})); }}
+                            >
+                                部省上报管理
                             </div>
                         </>
                     )}

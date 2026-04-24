@@ -339,6 +339,12 @@ export const FaultSMSConfigView: React.FC = () => {
             {/* Pagination */}
             <div className="h-10 bg-transparent border-t border-blue-500/20 flex items-center justify-between px-3 shrink-0">
                 <div className="flex items-center gap-2">
+                    <StyledButton variant="secondary" icon={<DownloadIcon className="w-3.5 h-3.5" />} className="h-7" onClick={() => alert('下载模版成功')}>
+                        导入模版
+                    </StyledButton>
+                    <StyledButton variant="secondary" icon={<DownloadIcon className="w-3.5 h-3.5" />} className="h-7" onClick={() => alert('导入成功')}>
+                        导入
+                    </StyledButton>
                     <StyledButton variant="secondary" icon={<DownloadIcon className="w-3.5 h-3.5" />} className="h-7" onClick={() => alert('导出成功')}>
                         导出
                     </StyledButton>

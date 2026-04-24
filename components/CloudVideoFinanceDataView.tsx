@@ -492,6 +492,7 @@ const CloudVideoMaintenanceDataView: React.FC = () => {
                     <table className="w-full text-left border-collapse">
                         <thead className="sticky top-0 z-10 bg-[#124979]/90 backdrop-blur-sm shadow-[0_2px_10px_rgba(0,0,0,0.3)]">
                             <tr>
+                                <Th className="text-blue-200">月份</Th>
                                 <Th className="text-blue-200">地市</Th>
                                 <Th className="text-blue-200">一级分类</Th>
                                 <Th className="text-blue-200">二级分类</Th>
@@ -504,6 +505,7 @@ const CloudVideoMaintenanceDataView: React.FC = () => {
                         <tbody>
                             {paginatedData.length > 0 ? paginatedData.map((item, index) => (
                                 <tr key={item.id} className={`hover:bg-blue-500/10 transition-colors ${index % 2 === 0 ? 'bg-transparent' : 'bg-[#0A3458]/20'}`}>
+                                    <Td className="text-blue-100">{item.month}</Td>
                                     <Td className="text-blue-100">{item.city}</Td>
                                     <Td className="text-blue-100">{item.cat1}</Td>
                                     <Td className="text-blue-100">{item.cat2}</Td>

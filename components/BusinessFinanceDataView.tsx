@@ -284,6 +284,7 @@ const InstallRemoveDataView: React.FC = () => {
                     <table className="w-full text-left border-collapse">
                         <thead className="sticky top-0 bg-[#1e3a5f] z-10">
                             <tr>
+                                <th className="p-3 text-xs font-semibold text-blue-100 border-b border-blue-500/30">月份</th>
                                 <th className="p-3 text-xs font-semibold text-blue-100 border-b border-blue-500/30">地市</th>
                                 <th className="p-3 text-xs font-semibold text-blue-100 border-b border-blue-500/30">一级分类</th>
                                 <th className="p-3 text-xs font-semibold text-blue-100 border-b border-blue-500/30">二级分类</th>
@@ -297,6 +298,7 @@ const InstallRemoveDataView: React.FC = () => {
                         <tbody>
                             {paginatedData.map((record) => (
                                 <tr key={record.id} className="hover:bg-blue-500/10 transition-colors border-b border-blue-500/10">
+                                    <td className="p-3 text-xs text-white">{filters.month}</td>
                                     <td className="p-3 text-xs text-white">{record.city}</td>
                                     <td className="p-3 text-xs text-white">{record.cat1}</td>
                                     <td className="p-3 text-xs text-white">{record.cat2}</td>
@@ -530,6 +532,7 @@ const MaintenanceDataView: React.FC = () => {
                     <table className="w-full text-left border-collapse">
                         <thead className="sticky top-0 bg-[#1e3a5f] z-10">
                             <tr>
+                                <Th className="text-blue-100">月份</Th>
                                 <Th className="text-blue-100">地市</Th>
                                 <Th className="text-blue-100">一级分类</Th>
                                 <Th className="text-blue-100">二级分类</Th>
@@ -543,6 +546,7 @@ const MaintenanceDataView: React.FC = () => {
                         <tbody>
                             {paginatedData.map((record) => (
                                 <tr key={record.id} className="hover:bg-blue-500/10 transition-colors border-b border-blue-500/10">
+                                    <Td className="text-white">{filters.month}</Td>
                                     <Td className="text-white">{record.city}</Td>
                                     <Td className="text-white">{record.cat1}</Td>
                                     <Td className="text-white">{record.cat2}</Td>
